@@ -66,13 +66,15 @@ app.get('/1.0/wishme/usuario/:id', cors(), async function(request, response){
     response.json(results)
 })
 
+const { postPhotocard, getPhotocardsByUserId } = require('./controller/controller_photocard.js');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+});
+const upload = multer({ storage });
+app.post('/1.0/wishme/photocard', upload.single('image'), postPhotocard);
+app.get('/1.0/wishme/photocard/:usuario_id', getPhotocardsByUserId);
 
-// app.delete('/1.0/wishme/cliente/:id', cors(), async function(request, response){
-//     let idClient = request.params.id
-//     let result = await controller_cliente.deleteClient(idClient)
-//     response.status(result.status_code)
-//     response.json(result)
-// })
 
 app.post('/1.0/wishme/login', cors(), bodyParserJSON, async function(request, response){
     let contentType = request.headers['content-type']
