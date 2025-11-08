@@ -12,6 +12,7 @@ app.use((request, response, next) =>{
 const bodyParserJSON = bodyParser.json()
 
 const controller_categoria = require('./controller/categoria.js')
+const controller_usuario = require('./controller/usuario.js')
 
 app.post('/1.0/wishme/categoria', cors(), bodyParserJSON, async function(request, response){
     let contentType = request.headers['content-type']
@@ -45,12 +46,43 @@ app.get('/2.0/wishme/categoria/:id', cors(), async function(request, response){
     response.status(results.status_code)
     response.json(results)
 })
-app.delete('/2.0/wishme/cliente/:id', cors(), async function(request, response){
-    let idClient = request.params.id
-    let result = await controller_cliente.deleteClient(idClient)
+
+
+app.post('/1.0/wishme/usuario', cors(), bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    let data = request.body
+    let result = await controller_usuario.postUser(data, contentType)
+    
     response.status(result.status_code)
     response.json(result)
 })
+
+app.get('/1.0/wishme/usuario/:id', cors(), async function(request, response){
+    let idUser = request.params.id
+    let results = await controller_usuario.getUserId(idUser)
+    console.log(results);
+    
+    response.status(results.status_code)
+    response.json(results)
+})
+
+
+// app.delete('/1.0/wishme/cliente/:id', cors(), async function(request, response){
+//     let idClient = request.params.id
+//     let result = await controller_cliente.deleteClient(idClient)
+//     response.status(result.status_code)
+//     response.json(result)
+// })
+
+app.post('/1.0/wishme/login', cors(), bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    let data = request.body 
+    let result = await controller_usuario.postUserLogin(data, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 app.listen('8080', function(){
     console.log('API funcionando!!')
 })
