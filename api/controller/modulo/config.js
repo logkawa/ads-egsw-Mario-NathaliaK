@@ -41,6 +41,21 @@ const SUCCESS_UPDATED_USER = {status: true, status_code: 200, message: 'Usuário
 const SUCCESS_FOUND_USER = {status: true, status_code: 200, message: 'Usuário encontrado.'}
 
 
+const { v2: cloudinary } = require('cloudinary');
+const dotenv = require('dotenv');
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: "dsxbc33ui",
+  api_key: "683216578168715",
+  api_secret: "Qg7xjXzYyYU1FucpmfqgU0itCOk",
+});
+
+module.exports = {
+  message,
+  cloudinary
+};
+
 
 module.exports = {
     ERROR_INVALID_ID,
